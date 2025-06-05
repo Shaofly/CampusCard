@@ -1,8 +1,5 @@
 package com.mag.servlet;
 
-import com.mag.domain.Books;
-import com.mag.service.BookService;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
