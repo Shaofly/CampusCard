@@ -25,4 +25,5 @@ public class LoginService {
     public boolean accountExists(String personID) {
         return cardDAO.findCardByPersonID(personID) != null;
     }
+
 }
