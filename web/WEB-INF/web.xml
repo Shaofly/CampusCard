@@ -19,7 +19,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- 更改语言 Servlet -->
+    <!-- 更改语言 ChangeLanguageServlet -->
     <servlet>
         <servlet-name>ChangeLanguageServlet</servlet-name>
         <servlet-class>com.mag.servlet.ChangeLanguageServlet</servlet-class>
@@ -29,7 +29,7 @@
         <url-pattern>/ChangeLanguageServlet</url-pattern>
     </servlet-mapping>
 
-    <!-- 登录处理 Servlet -->
+    <!-- 登录服务 LoginServlet -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.mag.servlet.LoginServlet</servlet-class>
@@ -39,7 +39,17 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 
-    <!-- 欢迎页面 -->
+    <!-- 转账服务 TransferServlet -->
+    <servlet>
+        <servlet-name>TransferServlet</servlet-name>
+        <servlet-class>com.mag.servlet.TransferServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransferServlet</servlet-name>
+        <url-pattern>/TransferServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 欢迎页面 login.jsp -->
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>

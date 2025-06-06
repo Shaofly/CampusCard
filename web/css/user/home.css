@@ -1,0 +1,197 @@
+/* 通用字体和背景设置 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Heiti SC", sans-serif;
+    background-color: #f4f4f4; /* 暂时灰色背景，等图片再改 */
+}
+
+/* 页眉 */
+.page-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.page-header .header-left {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.page-header .header-left img {
+    height: 40px;
+    margin-right: 12px;
+}
+
+.page-header .header-right {
+    position: relative;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.page-header .header-right:hover .dropdown {
+    display: block;
+}
+
+.page-header .dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 999;
+}
+
+.page-header .dropdown a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.page-header .dropdown a:hover {
+    background-color: #f0f0f0;
+}
+
+/* 主体内容区域 */
+.main-content {
+    margin-top: 80px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    width: 320px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.card .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 12px;
+    object-fit: cover;
+}
+
+.card .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.card .user-text {
+    font-size: 14px;
+    color: #555;
+}
+
+.notice-list, .message-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notice-list li, .message-list li {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.transfer-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.transfer-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.transfer-button:hover {
+    background-color: #0c7cd5;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.modal-close {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    font-size: 18px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: #555;
+}

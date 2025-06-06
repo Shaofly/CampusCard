@@ -9,11 +9,12 @@
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="<%= locale.getLanguage() %>">
 <head>
     <meta charset="UTF-8">
     <title><%= bundle.getString("login.title") %></title>
     <style>
+
         body {
             margin: 0;
             padding: 0;
@@ -21,17 +22,55 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            font-family: "Helvetica Neue", Arial, sans-serif;
+            background-attachment: fixed;
+
+            font-family:
+                /* 英文字体优先：现代清爽 */
+                    "Segoe UI", "Helvetica Neue", "Arial",
+
+                        /* 中文字体 fallback：覆盖 Windows、macOS 常用字体 */
+                    "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Heiti SC",
+
+                        /* 兜底字体 */
+                    sans-serif;
+        }
+
+        .page-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            padding-left: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .page-header .header-left {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
         }
 
         .login-box {
             width: 360px;
-            margin: 100px auto;
+            margin: 160px auto;
             padding: 40px;
-            background-color: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.33); /* 半透明 */
+            backdrop-filter: blur(12px); /* 模糊背景 */
+            -webkit-backdrop-filter: blur(12px); /* 兼容 Safari */
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .login-box h1 {
@@ -47,6 +86,7 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 14px;
+            box-sizing: border-box;
         }
 
         .login-box .options {
@@ -54,6 +94,9 @@
             font-size: 12px;
             margin-top: -5px;
             margin-bottom: 10px;
+            padding-right: 2px;
+            box-sizing: border-box;
+            width: 100%;  /* 确保和 input 对齐 */
         }
 
         .login-box .tip {
@@ -95,9 +138,16 @@
 </head>
 
 <body>
+<%-- 系统标题 --%>
+<div class="page-header">
+    <div class="header-left">
+        <%= bundle.getString("login.title") %>
+    </div>
+</div>
+
 <div class="login-box">
     <%-- 登录标题 --%>
-    <h1><%= bundle.getString("login.title") %></h1>
+    <h1><%= bundle.getString("login.login") %></h1>
 
     <%--  --%>
     <form action="../LoginServlet" method="post">
@@ -127,18 +177,29 @@
     </div>
 </div>
 
-<script>
-    // 当前语言由后端JSP输出，始终与session同步，不会错
-    const currentLang = "<%= locale.getLanguage() %>";
+<div style="text-align: center; margin-top: 20px;">
+    <a href="jsp/user/home.jsp" style="
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #ccc;
+        color: #000;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 13px;">
+        🚀 测试跳转首页（开发用）
+    </a>
+</div>
 
+<script>
     function changeLanguage() {
+        // 当前语言由后端JSP输出，始终与session同步，不会错
+        const currentLang = "<%= locale.getLanguage() %>";
         // 目标语言自动判断
         const newLanguage = currentLang === "zh" ? "en" : "zh";
         // 把目标语言写到隐藏表单
         document.getElementById('langInput').value = newLanguage;
         // 自动提交表单
         document.getElementById('languageForm').submit();
-
     }
 
 </script>
