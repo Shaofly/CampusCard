@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        boolean loginSuccess = loginService.Login(personID, password);
+        boolean loginSuccess = loginService.login(personID, password);
 
         if (loginSuccess) {
             CampusCard card = loginService.getCard(personID);
