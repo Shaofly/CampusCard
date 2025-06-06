@@ -6,6 +6,11 @@ import com.mag.domain.CampusCard;
 public class LoginService {
     private final CardDAO cardDAO = new CardDAO();
 
+    // 获取当前用户完整信息
+    public CampusCard getCard(String personID) {
+        return cardDAO.findCardByPersonID(personID);
+    }
+
     // 判断登录的账号密码是否正确
     public boolean login(String personID, String password) {
         CampusCard tempCard = cardDAO.findCardByPersonID(personID);
