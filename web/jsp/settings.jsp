@@ -25,8 +25,8 @@
 <body>
 <h2><%= bundle.getString("setting.language") %></h2>
 
-<form action="ChangeLanguageServlet" method="post">
-    <select name="lang">
+<form action="../ChangeLanguageServlet" method="post">
+    <select name="language">
         <option value="zh" <%= locale.getLanguage().equals("zh") ? "selected" : "" %>>中文</option>
         <option value="en" <%= locale.getLanguage().equals("en") ? "selected" : "" %>>English</option>
     </select>

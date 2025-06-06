@@ -19,14 +19,19 @@ public class ChangeLanguageServlet extends HttpServlet {
         if ("zh".equals(language)) {
             locale = new Locale("zh", "CN");
         } else {
-            locale = new Locale("en");
+            locale = new Locale("en","US");
         }
 
         // 将 Locale 保存到 Session 中
         HttpSession session = request.getSession();
         session.setAttribute("locale", locale);
 
-        // 重定向回设置页面或首页
-        response.sendRedirect("settings.jsp");
+        // 重定向回原页面
+        String referer = request.getHeader("Referer");
+        if (referer != null) {
+            response.sendRedirect(referer);
+        } else {
+            response.sendRedirect("./login.jsp");
+        }
     }
 }

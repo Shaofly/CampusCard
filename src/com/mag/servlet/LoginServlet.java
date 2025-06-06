@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
 
         if (personID == null || password == null || personID.trim().isEmpty() || password.trim().isEmpty()) {
             request.setAttribute("error", "账号或密码不能为空！");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
 
@@ -33,18 +33,18 @@ public class LoginServlet extends HttpServlet {
 
             // 判断是否管理员，重定向不同页面
             if (card.isAdmin()) {
-                response.sendRedirect("admin/main.jsp");
+                response.sendRedirect("admin/home.jsp");
             } else {
-                response.sendRedirect("user/main.jsp");
+                response.sendRedirect("user/home.jsp");
             }
         } else {
             request.setAttribute("error", "账号或密码错误！");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
     // get请求转发到index.jsp
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("login.jsp");
     }
 }
