@@ -1,11 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: msf
-  Date: 2025/6/6
-  Time: 16:23
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%
     Locale locale = (Locale) session.getAttribute("locale");
@@ -14,27 +7,229 @@
     }
     ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
 %>
+
 <!DOCTYPE html>
 <html lang="<%= locale.getLanguage() %>">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title><%= bundle.getString("home.title") %></title>
-    <link rel="stylesheet" href="../../css/user/home.css">
+    <link rel="stylesheet" href="../../css/home.css" />
+    <meta charset="UTF-8" />
+    <title>我的主页</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", "PingFang SC", sans-serif;
+            background-color: #f5f7fa;
+            background-image: url('../../img/heart.jpg');
+            background-size: cover;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 30px;
+            padding-right: 30px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .header-left img {
+            height: 36px;
+        }
+
+        .header-right {
+            margin-right: 40px;
+            box-sizing: border-box;
+            height: 100%;
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .header-right:hover {
+            color: #0071e3;
+            /* Apple蓝色 */
+            background: rgba(245, 245, 245, 0.7);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            font-size: 14px;
+            right: 0;
+            width: 100px;
+            top: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(200, 200, 200, 0.2);
+        }
+
+        .header-right:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            /* 去掉下划线 */
+            color: rgba(29, 29, 31, 1);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(240, 240, 240, 0.85);
+            color: #0071e3;
+            /* Apple蓝色 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 20px;
+            padding:20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
+            min-width: 350px;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card {
+            display: block;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex:1;
+            min-width: 300px;
+            max-width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .profile-card {
+            display: flex;
+            gap: 16px;
+            flex:2;
+        }
+
+        .avatar {
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 20%;
+            background-color: #ccc;
+            object-fit: cover;
+        }
+
+        .info p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .announcement-card ul,
+        .message-card ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .announcement-card li,
+        .message-card li {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .transfer-card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .transfer-card input[type="submit"] {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
 <div class="page-header">
     <div class="header-left">
-        <img src="#" alt="logo" class="logo">
-<%--        #表示logo的图片--%>
-        <span class="school-name">校园卡管理系统</span>
+        <img src="#" alt="logo">
+        校园卡系统
     </div>
     <div class="header-right">
-        <div class="user-name" onmouseover="toggleDropdown(true)" onmouseout="toggleDropdown(false)">
-            张三
-            <div id="userDropdown" class="dropdown-content">
-                <a href="#" onclick="openProfileModal()"><%= bundle.getString("home.profile") %></a>
-                <a href="settings.jsp"><%= bundle.getString("home.settings") %></a>
-            </div>
+        张三
+        <div class="dropdown-content">
+            <a href="#">个人信息</a>
+            <a href="#">系统设置</a>
+            <a href="#">退出登录</a>
         </div>
     </div>
 </div>
@@ -43,12 +238,11 @@
     <div class="card-row">
         <div class="card profile-card">
             <img src="#" class="avatar" alt="头像">
-<%--            #表示头像的地址--%>
             <div class="info">
                 <p>姓名：张三</p>
-                <p>学号：20231234</p>
+                <p>学号：2023111234</p>
                 <p>电话：13800001111</p>
-                <a href="./myTransactions.jsp">查看流水</a>
+                <a href="#">查看流水</a>
             </div>
         </div>
 
@@ -65,7 +259,7 @@
             <h3>系统公告</h3>
             <ul>
                 <li>6月10日系统维护</li>
-                <li>6月1日起启用新版布局</li>
+                <li>新版UI上线</li>
             </ul>
         </div>
 
@@ -79,39 +273,16 @@
 
         <div class="card transfer-card">
             <h3>转账功能</h3>
-            <form action="${pageContext.request.contextPath}/TransferServlet" method="post">
-                <input type="text" name="targetId" placeholder="请输入对方学号" required>
-                <input type="number" step="0.01" name="amount" placeholder="转账金额" required>
+            <form>
+                <input type="text" placeholder="请输入对方学号">
+                <input type="number" placeholder="转账金额" min="0" step="5"
+                       oninput="this.value = this.value < 0 ? '' : this.value;">
+                <!-- 判断输入是否为负数 -->
                 <input type="submit" value="转账">
             </form>
         </div>
     </div>
 </div>
-
-<!-- 个人信息弹窗 -->
-<div id="profileModal" class="modal" style="display:none">
-    <div class="modal-content">
-        <span class="close" onclick="closeProfileModal()">&times;</span>
-        <h2>个人信息</h2>
-        <form>
-            <label>姓名：</label><input type="text" value="张三" disabled><br>
-            <label>学号：</label><input type="text" value="20231234" disabled><br>
-            <label>电话：</label><input type="text" value="13800001111"><br>
-            <input type="submit" value="保存">
-        </form>
-    </div>
-</div>
-
-<script>
-    function toggleDropdown(show) {
-        document.getElementById('userDropdown').style.display = show ? 'block' : 'none';
-    }
-    function openProfileModal() {
-        document.getElementById('profileModal').style.display = 'block';
-    }
-    function closeProfileModal() {
-        document.getElementById('profileModal').style.display = 'none';
-    }
-</script>
 </body>
+
 </html>

@@ -48,7 +48,6 @@
             padding-left: 30px;
             font-size: 18px;
             font-weight: bold;
-            color: #2c3e50;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
@@ -72,6 +71,13 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
+
+        /*.login-box:hover{*/
+        /*    transform: translateY(-2px);*/
+        /*    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);*/
+        /*    border: 1px solid rgba(255, 255, 255, 0.5);*/
+        /*    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);*/
+        /*}*/
 
         .login-box h1 {
             margin-bottom: 30px;

@@ -1,93 +1,147 @@
-/* 通用字体和背景设置 */
+/* home.css：风格延续 login 页 */
+
 body {
     margin: 0;
     padding: 0;
-    font-family: "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Heiti SC", sans-serif;
-    background-color: #f4f4f4; /* 暂时灰色背景，等图片再改 */
+    font-family: "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", "PingFang SC", sans-serif;
+    background-color: #f5f7fa;
+    background-image: url('../../img/heart.jpg');
+    background-size: cover;
 }
 
-/* 页眉 */
 .page-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
 }
 
-.page-header .header-left {
+.header-left {
     display: flex;
     align-items: center;
-    font-size: 20px;
+    gap: 10px;
     font-weight: 600;
+    font-size: 18px;
     color: #2c3e50;
 }
 
-.page-header .header-left img {
-    height: 40px;
-    margin-right: 12px;
+.header-left img {
+    height: 36px;
 }
 
-.page-header .header-right {
+.header-right {
+    margin-right: 40px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    font-size: 14px;
-    color: #333;
+    font-size: 16px;
     cursor: pointer;
 }
 
-.page-header .header-right:hover .dropdown {
+.header-right:hover {
+    color: #0071e3;
+    /* Apple蓝色 */
+    background: rgba(245, 245, 245, 0.7);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    font-size: 14px;
+    right: 0;
+    width: 100px;
+    top: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid rgba(200, 200, 200, 0.2);
+}
+
+.header-right:hover .dropdown-content {
     display: block;
 }
 
-.page-header .dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    z-index: 999;
-}
-
-.page-header .dropdown a {
+.dropdown-content a {
     display: block;
     padding: 10px 20px;
     text-decoration: none;
-    color: #333;
-    font-size: 13px;
-    white-space: nowrap;
+    /* 去掉下划线 */
+    color: rgba(29, 29, 31, 1);
 }
 
-.page-header .dropdown a:hover {
-    background-color: #f0f0f0;
+.dropdown-content a:hover {
+    background: rgba(240, 240, 240, 0.85);
+    color: #0071e3;
+    /* Apple蓝色 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-2px);
 }
 
-/* 主体内容区域 */
 .main-content {
     margin-top: 80px;
     padding: 30px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 24px;
+}
+
+.card-row {
+    display: flex;
     gap: 20px;
-    justify-content: center;
+    padding:20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    min-width: 350px;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.95);
+    display: block;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 12px;
     padding: 20px;
-    width: 320px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex:1;
+    min-width: 300px;
+    max-width: 100%;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card h3 {
@@ -96,102 +150,51 @@ body {
     color: #2c3e50;
 }
 
-.card .avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+.profile-card {
+    display: flex;
+    gap: 16px;
+    flex:2;
+}
+
+.avatar {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 20%;
     background-color: #ccc;
-    margin-right: 12px;
     object-fit: cover;
 }
 
-.card .user-info {
-    display: flex;
-    align-items: center;
-}
-
-.card .user-text {
+.info p {
+    margin: 4px 0;
     font-size: 14px;
     color: #555;
 }
 
-.notice-list, .message-list {
-    list-style: none;
+.announcement-card ul,
+.message-card ul {
     padding: 0;
     margin: 0;
+    list-style: none;
 }
 
-.notice-list li, .message-list li {
+.announcement-card li,
+.message-card li {
     font-size: 13px;
-    margin-bottom: 8px;
-    color: #333;
-    line-height: 1.4;
+    margin-bottom: 6px;
 }
 
-.transfer-input {
+.transfer-card input {
     width: 100%;
     padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
     margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
-.transfer-button {
-    width: 100%;
-    padding: 10px;
+.transfer-card input[type="submit"] {
     background-color: #1e90ff;
     color: white;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
-}
-
-.transfer-button:hover {
-    background-color: #0c7cd5;
-}
-
-/* 模态框样式 */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
-
-.modal-content h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: #2c3e50;
-}
-
-.modal-close {
-    position: absolute;
-    right: 12px;
-    top: 10px;
-    font-size: 18px;
-    color: #aaa;
-    cursor: pointer;
-}
-
-.modal-close:hover {
-    color: #555;
 }
