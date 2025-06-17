@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%
     Locale locale = (Locale) session.getAttribute("locale");
@@ -12,7 +12,8 @@
 <html lang="<%= locale.getLanguage() %>">
 <head>
     <meta charset="UTF-8">
-    <title><%= bundle.getString("login.title") %></title>
+    <title><%= bundle.getString("login.title") %>
+    </title>
     <style>
 
         body {
@@ -24,15 +25,9 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
 
-            font-family:
-                /* 英文字体优先：现代清爽 */
-                    "Segoe UI", "Helvetica Neue", "Arial",
-
-                        /* 中文字体 fallback：覆盖 Windows、macOS 常用字体 */
-                    "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Heiti SC",
-
-                        /* 兜底字体 */
-                    sans-serif;
+            font-family: /* 英文字体优先：现代清爽 */ "Segoe UI", "Helvetica Neue", "Arial",
+                /* 中文字体 fallback：覆盖 Windows、macOS 常用字体 */ "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Heiti SC",
+                /* 兜底字体 */ sans-serif;
         }
 
         .page-header {
@@ -102,7 +97,7 @@
             margin-bottom: 10px;
             padding-right: 2px;
             box-sizing: border-box;
-            width: 100%;  /* 确保和 input 对齐 */
+            width: 100%; /* 确保和 input 对齐 */
         }
 
         .login-box .tip {
@@ -153,16 +148,25 @@
 
 <div class="login-box">
     <%-- 登录标题 --%>
-    <h1><%= bundle.getString("login.login") %></h1>
+    <h1><%= bundle.getString("login.login") %>
+    </h1>
 
-    <%--  --%>
-    <form action="../LoginServlet" method="post">
+    <%-- 登录表单 --%>
+    <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
         <input type="text" name="personID" placeholder="<%= bundle.getString("login.account") %>" required>
         <input type="password" name="password" placeholder="<%= bundle.getString("login.password") %>" required>
 
         <div class="options">
-            <a href="#"><%= bundle.getString("login.forgotPassword") %></a>
+            <a href="#"><%= bundle.getString("login.forgotPassword") %>
+            </a>
         </div>
+
+        <%-- 报错信息 --%>
+        <% if (request.getAttribute("error") != null) { %>
+        <div style="color: #e74c3c; font-size: 14px; margin-bottom: 10px; text-align:center;">
+            <%= request.getAttribute("error") %>
+        </div>
+        <% } %>
 
         <input type="submit" value="<%= bundle.getString("login.submit") %>">
     </form>
@@ -174,7 +178,8 @@
 
     <%-- 切换语言 --%>
     <div class="language-switch">
-        <form id="languageForm" action="${pageContext.request.contextPath}/ChangeLanguageServlet" method="post" style="display:none;">
+        <form id="languageForm" action="${pageContext.request.contextPath}/ChangeLanguageServlet" method="post"
+              style="display:none;">
             <input type="hidden" name="language" id="langInput">
         </form>
         <a href="javascript:void(0);" onclick="changeLanguage()">
@@ -184,7 +189,7 @@
 </div>
 
 <div style="text-align: center; margin-top: 20px;">
-    <a href="jsp/user/home.jsp" style="
+    <a href="./jsp/user/home.jsp" style="
         display: inline-block;
         padding: 8px 16px;
         background-color: #ccc;

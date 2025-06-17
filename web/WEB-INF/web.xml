@@ -39,6 +39,16 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- 登出服务 LogoutServlet -->
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.mag.servlet.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+
     <!-- 转账服务 TransferServlet -->
     <servlet>
         <servlet-name>TransferServlet</servlet-name>

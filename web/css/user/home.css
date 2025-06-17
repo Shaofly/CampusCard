@@ -5,8 +5,11 @@ body {
     padding: 0;
     font-family: "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", "PingFang SC", sans-serif;
     background-color: #f5f7fa;
-    background-image: url('../../img/heart.jpg');
+    background-image: url('../../img/dayLake.png');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .page-header {
@@ -37,7 +40,7 @@ body {
 }
 
 .header-left img {
-    height: 36px;
+    height: 30px;
 }
 
 .header-right {
@@ -120,7 +123,8 @@ body {
     width: 100%;
     min-width: 350px;
     max-width: 1200px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(245, 247, 250, 0.2);
+    /*#f5f7fa*/
 }
 
 .card {
@@ -130,8 +134,8 @@ body {
     -webkit-backdrop-filter: blur(12px);
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    /*box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);*/
+    border: 1px solid rgba(0, 0, 0, 0.1);
     flex:1;
     min-width: 300px;
     max-width: 100%;
@@ -166,10 +170,34 @@ body {
 
 .info p {
     margin: 4px 0;
-    font-size: 14px;
+    font-size: 18px;
     color: #555;
 }
 
+.myTransaction-btn {
+    display: inline-block;
+    padding: 8px 18px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
+    background: linear-gradient(90deg, #4f8cff 0%, #1e90ff 100%);
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(60, 120, 200, 0.08);
+    transition: all 0.2s;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+.myTransaction-btn:hover {
+    background: linear-gradient(90deg, #3572e8 0%, #005bb5 100%);
+    box-shadow: 0 4px 12px rgba(30, 144, 255, 0.18);
+    color: #fff;
+    transform: translateY(-1px) scale(1.04);
+}
+
+/*“系统公告”和“我的消息”卡片*/
 .announcement-card ul,
 .message-card ul {
     padding: 0;
@@ -183,6 +211,7 @@ body {
     margin-bottom: 6px;
 }
 
+/*转账卡片*/
 .transfer-card input {
     width: 100%;
     padding: 10px;
@@ -192,9 +221,100 @@ body {
     box-sizing: border-box;
 }
 
-.transfer-card input[type="submit"] {
+.transfer-card input[type="button"] {
     background-color: #1e90ff;
     color: white;
     border: none;
     cursor: pointer;
+}
+
+/* 弹窗遮罩 */
+.modal-overlay {
+    position: fixed;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(80,100,130,0.12);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: overlayBlurIn 0.35s cubic-bezier(0.4,0,0.2,1);
+    /* Safari兼容 */
+    -webkit-animation: overlayBlurIn 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes overlayBlurIn {
+    0%   { opacity: 0;   backdrop-filter: blur(0px);}
+    100% { opacity: 1;   backdrop-filter: blur(6px);}
+}
+@-webkit-keyframes overlayBlurIn {
+    0%   { opacity: 0;   -webkit-backdrop-filter: blur(0px);}
+    100% { opacity: 1;   -webkit-backdrop-filter: blur(6px);}
+}
+/* 弹窗本体卡片 */
+.modal-card {
+    background: rgba(255,255,255,0.9);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    /*box-shadow: 0 8px 32px rgba(0,0,0,0.18);*/
+    min-width: 340px;
+    max-width: 95vw;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes popIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.input-row {
+    margin-bottom: 18px;
+    text-align: left;
+}
+.input-row label {
+    display: block;
+    margin-bottom: 6px;
+    color: #2c3e50;
+    font-size: 15px;
+}
+.input-row input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 7px;
+    border: 1px solid #d3d8e0;
+    font-size: 15px;
+    background: #fafbfc;
+    box-sizing: border-box;
+    margin-bottom: 2px;
+}
+.modal-btn-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 10px;
+}
+.modal-confirm-btn, .modal-cancel-btn {
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(60, 120, 200, 0.08);
+    transition: all 0.2s;
+}
+.modal-confirm-btn {
+    background: linear-gradient(90deg,#4f8cff,#1e90ff);
+    color: #fff;
+    font-weight: 500;
+}
+.modal-confirm-btn:hover {
+    background: linear-gradient(90deg,#3572e8,#005bb5);
+}
+.modal-cancel-btn {
+    background: #e3e6ea;
+    color: #555;
+}
+.modal-cancel-btn:hover {
+    background: #d2d6da;
 }

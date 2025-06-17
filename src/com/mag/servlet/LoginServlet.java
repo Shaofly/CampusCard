@@ -33,9 +33,9 @@ public class LoginServlet extends HttpServlet {
 
             // 判断是否管理员，重定向不同页面
             if (card.isAdmin()) {
-                response.sendRedirect("admin/home.jsp");
+                response.sendRedirect("./jsp/user/home.jsp");
             } else {
-                response.sendRedirect("user/home.jsp");
+                response.sendRedirect("./jsp/user/home.jsp");
             }
         } else {
             request.setAttribute("error", "账号或密码错误！");
@@ -45,6 +45,6 @@ public class LoginServlet extends HttpServlet {
 
     // get请求转发到index.jsp
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("/login.jsp");
     }
 }
