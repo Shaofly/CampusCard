@@ -59,6 +59,36 @@
         <url-pattern>/TransferServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- 管理员主页显示服务 AdminIndexServlet -->
+    <servlet>
+        <servlet-name>AdminIndexServlet</servlet-name>
+        <servlet-class>com.mag.servlet.AdminIndexServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminIndexServlet</servlet-name>
+        <url-pattern>/AdminIndexServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 用户主页显示服务 UserHomeServlet -->
+    <servlet>
+        <servlet-name>UserHomeServlet</servlet-name>
+        <servlet-class>com.mag.servlet.UserHomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserHomeServlet</servlet-name>
+        <url-pattern>/UserHomeServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 管理员主页显示服务 CardManageServlet -->
+    <servlet>
+        <servlet-name>CardManageServlet</servlet-name>
+        <servlet-class>com.mag.servlet.CardManageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CardManageServlet</servlet-name>
+        <url-pattern>/CardManageServlet</url-pattern>
+    </servlet-mapping>
+
     <!-- 欢迎页面 login.jsp -->
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>

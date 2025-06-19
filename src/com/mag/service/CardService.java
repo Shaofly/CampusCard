@@ -3,7 +3,7 @@ package com.mag.service;
 import com.mag.dao.CardDAO;
 import com.mag.domain.CampusCard;
 
-import javax.smartcardio.Card;
+import java.util.List;
 
 public class CardService {
     private final CardDAO cardDAO = new CardDAO();
@@ -36,9 +36,28 @@ public class CardService {
         return cardDAO.updateCardStatus(cardID, newStatus);
     }
 
+    public boolean updatePendingBalance(String personID, double newPending){
+        return cardDAO.updatePendingBalance(personID,newPending);
+    }
+
     // 彻底删除卡信息
     public boolean deleteCard(String cardID){
         return cardDAO.deleteCard(cardID);
+    }
+
+    // 分页查询
+    public List<CampusCard> findCardsByPage(int currentPage, int pageSize) {
+        return cardDAO.findCardsByPage(currentPage, pageSize);
+    }
+
+    // 查询总卡数
+    public int countAllCards() {
+        return cardDAO.countAllCards();
+    }
+
+    // 查询总金额（所有正常卡）
+    public double sumAllNormalBalance(){
+        return cardDAO.sumAllNormalBalance();
     }
 
 }

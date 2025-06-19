@@ -11,7 +11,7 @@ public class TransactionRecordDAO {
 
     // 新增一条交易记录
     public boolean insertRecord(TransactionRecord record) {
-        String sql = "INSERT INTO TransactionRecord_Info (personID, type, amount, location, transactionTime, balanceAfter) " +
+        String sql = "INSERT INTO TransactionRecord_Info (personID, type, amount, location, transactionTime, pendingBalanceAfter) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         String[] parameters = {
                 record.getPersonID() + "",
@@ -19,7 +19,7 @@ public class TransactionRecordDAO {
                 record.getAmount() + "",
                 record.getLocation(),
                 new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(record.getTransactionTime()),
-                record.getBalanceAfter() + ""
+                record.getPendingBalanceAfter() + ""
         };
         try {
             SqlHelper.executeUpdate(sql, parameters);
@@ -42,12 +42,12 @@ public class TransactionRecordDAO {
             while (rs.next()) {
                 TransactionRecord record = new TransactionRecord();
                 record.setRecordID(rs.getInt("recordID"));
-                record.setPersonId(rs.getInt("personID"));
+                record.setPersonId(rs.getString("personID"));
                 record.setType(rs.getString("type"));
                 record.setAmount(rs.getInt("amount"));
                 record.setLocation(rs.getString("location"));
                 record.setTransactionTime(rs.getTimestamp("transactionTime"));
-                record.setBalanceAfter(rs.getDouble("balanceAfter"));
+                record.setPendingBalanceAfter(rs.getDouble("pendingBalanceAfter"));
                 list.add(record);
             }
         } catch (Exception e) {
@@ -83,12 +83,12 @@ public class TransactionRecordDAO {
             while (rs.next()) {
                 TransactionRecord record = new TransactionRecord();
                 record.setRecordID(rs.getInt("recordID"));
-                record.setPersonId(rs.getInt("personID"));
+                record.setPersonId(rs.getString("personID"));
                 record.setType(rs.getString("type"));
                 record.setAmount(rs.getInt("amount"));
                 record.setLocation(rs.getString("location"));
                 record.setTransactionTime(rs.getTimestamp("transactionTime"));
-                record.setBalanceAfter(rs.getDouble("balanceAfter"));
+                record.setPendingBalanceAfter(rs.getDouble("pendingBalanceAfter"));
                 list.add(record);
             }
         } catch (Exception e) {

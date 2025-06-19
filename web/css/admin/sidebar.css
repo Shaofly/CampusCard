@@ -21,6 +21,7 @@ body {
     left:30px;
     bottom: 40px;
     width: 240px;
+    min-height: 600px;
     align-items: center;
     background: rgba(255,255,255,0.9);
     /*border: 1px solid #e0e4ea;*/
@@ -29,7 +30,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     padding: 30px 0 20px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    /*box-shadow: 0 2px 8px rgba(0,0,0,0.10);*/
+    box-shadow: 0 2px 14px rgba(30,144,255,0.07);
 }
 
 .admin-logo {
@@ -56,28 +58,38 @@ body {
 .nav-item {
     padding: 12px 28px;
     font-size: 16px;
-    border-radius: 8px 0 0 8px;
+    border-radius: 8px;
     color: #333;
     text-decoration: none;
-    transition: background 0.15s;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    font-weight: 500;
+    margin: 0 10px 0 10px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
+
 .nav-item.active, .nav-item:hover {
-    background: linear-gradient(90deg,#4f8cff,#1e90ff33);
-    color: #1e90ff;
+    background: linear-gradient(95deg, #4f8cff 90%, #93baff 100%);
+    color: #fff !important;
     font-weight: bold;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+    border-radius: 12px;
 }
+
 .admin-sidebar-bottom {
     text-align: center;
     margin-top: 30px;
 }
 .logout-link {
     font-size: 14px;
-    color: #999;
+    color: #888;
     text-decoration: none;
-    border-radius: 6px;
-    padding: 6px 16px;
-    background: #f0f3fa;
-    transition: background 0.18s;
+    border-radius: 8px;
+    padding: 7px 20px;
+    background: #f5f6fa;
+    transition: background 0.18s, color 0.18s;
+    font-weight: 500;
 }
 .logout-link:hover {
     background: #e1e6f5;

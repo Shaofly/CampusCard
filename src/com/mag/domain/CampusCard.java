@@ -24,7 +24,7 @@ public class CampusCard {
     private String status;              // 卡状态（正常/挂失/冻结/注销）
     private String cardType;            // 卡类型（正常/临时）
     private String role;                // 卡所属人身份（学生/教室/后勤/附属中小学生）
-    private String campusLocation;      // 校区位置
+    private String campusLocation;      // 校区位置（合肥校区/宣城校区）
     private Date registerDate;          // 开卡日期（输入输出标准YYYY-MM-DD）
     private String phoneNumber;         // 手机号
     private String IDNumber;            // 身份证号 最多18位，考虑留学生

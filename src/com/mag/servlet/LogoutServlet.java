@@ -10,6 +10,6 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             session.invalidate(); // 彻底清除所有Session数据
         }
-        response.sendRedirect("/login.jsp"); // 跳回登录页
+        response.sendRedirect(request.getContextPath() + "/login.jsp"); // 跳回登录页
     }
 }

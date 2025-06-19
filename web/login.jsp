@@ -153,7 +153,7 @@
 
     <%-- 登录表单 --%>
     <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
-        <input type="text" name="personID" placeholder="<%= bundle.getString("login.account") %>" required>
+        <input type="text" name="personID" value="<%= request.getAttribute("personID") == null ? "" : request.getAttribute("personID") %>" placeholder="<%= bundle.getString("login.account") %>" required>
         <input type="password" name="password" placeholder="<%= bundle.getString("login.password") %>" required>
 
         <div class="options">
@@ -197,7 +197,7 @@
         text-decoration: none;
         border-radius: 6px;
         font-size: 13px;">
-        🚀 测试跳转首页（开发用）
+        🚀 测试跳转用户首页（开发用）
     </a>
 </div>
 
