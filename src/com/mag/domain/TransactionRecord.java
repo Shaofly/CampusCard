@@ -20,6 +20,25 @@ public class TransactionRecord {
     // 如果类型是转出："你于‘transitionTime’向‘receiverPersonID’转出‘amount’元"
     // 如果类型是退款："你于‘transitionTime’收到退款‘amount’元，原订单编号为‘relatedToRecordID’"
 
+    public TransactionRecord(){}
+
+    public TransactionRecord(int recordID, String personID, String type, double amount,
+                             String location, Date transactionTime, double pendingBalanceAfter,
+                             String senderPersonID, String receiverPersonID, String relatedToRecordID,
+                             String description) {
+        this.recordID = recordID;
+        this.personID = personID;
+        this.type = type;
+        this.amount = amount;
+        this.location = location;
+        this.transactionTime = transactionTime;
+        this.pendingBalanceAfter = pendingBalanceAfter;
+        this.senderPersonID = senderPersonID;
+        this.receiverPersonID = receiverPersonID;
+        this.relatedToRecordID = relatedToRecordID;
+        this.description = description;
+    }
+
     //recordID
     public int getRecordID() {
         return recordID;
@@ -104,5 +123,22 @@ public class TransactionRecord {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionRecord{" +
+                "recordID=" + recordID +
+                ", personID='" + personID + '\'' +
+                ", type='" + type + '\'' +
+                ", amount=" + amount +
+                ", location='" + location + '\'' +
+                ", transactionTime=" + transactionTime +
+                ", pendingBalanceAfter=" + pendingBalanceAfter +
+                ", senderPersonID='" + senderPersonID + '\'' +
+                ", receiverPersonID='" + receiverPersonID + '\'' +
+                ", relatedToRecordID='" + relatedToRecordID + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

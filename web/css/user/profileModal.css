@@ -1,0 +1,76 @@
+/* grid布局双列 */
+.profile-modal-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* 两列等宽 */
+    gap: 15px 24px;                   /* 行间距 列间距 */
+    margin: 80px 40px 80px 0;
+}
+
+@media (max-width: 700px) {
+    .modal-form-grid {
+        grid-template-columns: 1fr;   /* 小屏自动回单列 */
+    }
+}
+
+/* 弹窗本体卡片 */
+.profile-modal-card {
+    background: rgba(255,255,255,0.9);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    /*box-shadow: 0 8px 32px rgba(0,0,0,0.18);*/
+    min-width: 350px;
+    max-width: 80vw;
+    width: 50vw;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.35s cubic-bezier(0.4,0,0.2,1);
+    max-height: 80vh;       /* 弹窗最大高度为视口80% */
+    overflow-y: auto;       /* 超出时滚动 */
+    overscroll-behavior: contain; /* 防止页面跟随滚动 */
+}
+/* 弹窗卡片 出现动画 */
+@keyframes popIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+/* 弹窗卡片 关闭动画 */
+@keyframes popOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.85); opacity: 0; }
+}
+.profile-modal-card.closing {
+    animation: popOut 0.35s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+.profile-modal-card .modal-btn-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 10px;
+}
+.profile-modal-card .modal-confirm-btn,
+.profile-modal-card .modal-cancel-btn {
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(60, 120, 200, 0.08);
+    transition: all 0.2s;
+}
+.profile-modal-card .modal-confirm-btn {
+    background: linear-gradient(90deg,#4f8cff,#1e90ff);
+    color: #fff;
+    font-weight: 500;
+}
+.profile-modal-card .modal-confirm-btn:hover {
+    background: linear-gradient(90deg,#3572e8,#005bb5);
+}
+.profile-modal-card .modal-cancel-btn {
+    background: #e3e6ea;
+    color: #555;
+}
+.profile-modal-card .modal-cancel-btn:hover {
+    background: #d2d6da;
+}

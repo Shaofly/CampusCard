@@ -21,9 +21,9 @@ public class TransactionRecordService {
         return recordDAO.findRecordsByPersonID(personID);
     }
 
-    // 查询最近50条记录
-    public List<TransactionRecord> getRecentRecords(String personID) {
-        return recordDAO.findRecentRecords(personID);
+    // 根据personID查询最近 limit 条记录
+    public List<TransactionRecord> getRecentRecords(String personID,int number) {
+        return recordDAO.findRecentRecords(personID,number);
     }
 
     // 根据recordID删除一条交易记录

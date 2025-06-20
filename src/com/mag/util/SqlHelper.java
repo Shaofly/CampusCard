@@ -184,4 +184,25 @@ public class SqlHelper {
 		}
 	}
 
+	// 新增方法：返回受影响的行数
+	public static int executeUpdateReturnCount(String sql, String[] parameters) {
+		Connection ct = null;
+		PreparedStatement ps = null;
+		try {
+			ct = getConnection();
+			ps = ct.prepareStatement(sql);
+			if (parameters != null) {
+				for (int i = 0; i < parameters.length; i++) {
+					ps.setObject(i + 1, parameters[i]);
+				}
+			}
+			// 执行并返回受影响行数
+			return ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			close(ct, ps, null);
+		}
+	}
 }

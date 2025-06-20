@@ -28,7 +28,7 @@ public class CardManageServlet extends HttpServlet {
         String pageStr = request.getParameter("currentPage");
         String pageSizeStr = request.getParameter("pageSize");
         int currentPage = (pageStr == null) ? 1 : Integer.parseInt(pageStr);
-        int pageSize = (pageSizeStr == null) ? 15 : Integer.parseInt(pageSizeStr); // 默认5条
+        int pageSize = (pageSizeStr == null) ? 10 : Integer.parseInt(pageSizeStr); // 默认5条
 
         // 2. 查询数据和总数
         List<CampusCard> cardList = cardService.findCardsByPage(currentPage, pageSize);

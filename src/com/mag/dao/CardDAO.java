@@ -12,10 +12,56 @@ public class CardDAO {
     // 默认构造函数
     public CardDAO() {}
 
-    // 根据personID查询CampusCard信息
-    public CampusCard findCardByPersonID(String personID){
-        String sql = "SELECT * FROM CampusCard_Info WHERE personID = ? AND status = ?";
-        String[] parameters = { personID , "正常"};
+    // 根据personID和状态（两种都要）查询CampusCard信息
+    public CampusCard findCardByPersonID(String personID,String status1,String status2){
+        String sql = "SELECT * FROM CampusCard_Info WHERE personID = ? AND (status = ? OR status = ?)";
+        String[] parameters = { personID , status1, status2};
+        CampusCard card = null;
+        ResultSet rs = null;
+
+        try {
+            rs = SqlHelper.executeQuery(sql, parameters);
+            if (rs.next()) {
+                card = new CampusCard();
+                card.setRecordID(rs.getInt("recordID"));
+                card.setCardID(rs.getString("cardID"));
+                card.setPersonID(rs.getString("personID"));
+                card.setName(rs.getString("name"));
+                card.setGender(rs.getString("gender"));
+                card.setAvatar(rs.getString("avatar"));
+                card.setDepartment(rs.getString("department"));
+                card.setMajor(rs.getString("major"));
+                card.setGrade(rs.getString("grade"));
+                card.setClassName(rs.getString("className"));
+                card.setBalance(rs.getDouble("balance"));
+                card.setPendingBalance(rs.getDouble("pendingBalance"));
+                card.setMaxLimit(rs.getInt("maxLimit"));
+                card.setPassword(rs.getString("password"));
+                card.setPasswordPay(rs.getString("passwordPay"));
+                card.setOnlineTransfer(rs.getBoolean("isOnlineTransfer"));
+                card.setStatus(rs.getString("status"));
+                card.setCardType(rs.getString("cardType"));
+                card.setRole(rs.getString("role"));
+                card.setCampusLocation(rs.getString("campusLocation"));
+                card.setRegisterDate(rs.getDate("registerDate"));
+                card.setPhoneNumber(rs.getString("phoneNumber"));
+                card.setIDNumber(rs.getString("IDNumber"));
+                card.setEmail(rs.getString("email"));
+                card.setMessage(rs.getString("message"));
+                card.setAdmin(rs.getBoolean("isAdmin"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlHelper.close(SqlHelper.getCt(), SqlHelper.getPs(), SqlHelper.getRs());
+        }
+        return card;
+    }
+
+    // 根据personID和一种状态查询CampusCard信息
+    public CampusCard findCardByPersonID(String personID,String status){
+        String sql = "SELECT * FROM CampusCard_Info WHERE personID = ? AND status = ? ";
+        String[] parameters = { personID , status};
         CampusCard card = null;
         ResultSet rs = null;
 
@@ -124,7 +170,7 @@ public class CardDAO {
                 String.valueOf(card.getMaxLimit()),
                 card.getPassword(),
                 card.getPasswordPay(),
-                String.valueOf(card.isOnlineTransfer()),
+                card.isOnlineTransfer() ? "1" : "0",
                 card.getStatus(),
                 card.getCardType(),
                 card.getRole(),
@@ -134,7 +180,7 @@ public class CardDAO {
                 card.getIDNumber(),
                 card.getEmail(),
                 card.getMessage(),
-                String.valueOf(card.isAdmin())
+                card.isAdmin() ? "1" : "0", //true如果转为String无法导入sql
         };
 
         try {
@@ -147,13 +193,13 @@ public class CardDAO {
     }
 
     // 更新CampusCard在数据库的信息
-    public boolean updateCard(CampusCard card){
+    public boolean updateCardByCardID(CampusCard card){
         String sql = "UPDATE CampusCard_Info SET " +
                 "name=?, gender=?, avatar=?, department=?, major=?, grade=?, className=?, " +
                 "balance=?, pendingBalance=?, maxLimit=?, password=?, passwordPay=?, " +
                 "isOnlineTransfer=?, status=?, cardType=?, role=?, campusLocation=?, " +
                 "registerDate=?, phoneNumber=?, IDNumber=?, email=?, message=?, isAdmin=? " +
-                "WHERE personID=?";
+                "WHERE cardID=?";
 
         String[] parameters = {
                 card.getName(),
@@ -168,7 +214,7 @@ public class CardDAO {
                 String.valueOf(card.getMaxLimit()),
                 card.getPassword(),
                 card.getPasswordPay(),
-                String.valueOf(card.isOnlineTransfer()),
+                card.isOnlineTransfer() ? "1" : "0",
                 card.getStatus(),
                 card.getCardType(),
                 card.getRole(),
@@ -178,13 +224,15 @@ public class CardDAO {
                 card.getIDNumber(),
                 card.getEmail(),
                 card.getMessage(),
-                String.valueOf(card.isAdmin()),
-                card.getPersonID()
+                card.isAdmin() ? "1" : "0",
+                card.getCardID()
         };
 
         try {
-            SqlHelper.executeUpdate(sql, parameters);
-            return true;
+            int result = SqlHelper.executeUpdateReturnCount(sql, parameters);
+            System.out.println("执行updateCard SQL影响行数：" + result);
+            System.out.println("参数：" + java.util.Arrays.toString(parameters));
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -319,5 +367,79 @@ public class CardDAO {
             SqlHelper.close(SqlHelper.getCt(), SqlHelper.getPs(), SqlHelper.getRs());
         }
         return 0.0;
+    }
+
+    // 模糊查找+分页
+    public List<CampusCard> findCardsByKeywordAndPage(String keyword, int currentPage, int pageSize) {
+        List<CampusCard> cards = new ArrayList<>();
+        int offset = (currentPage - 1) * pageSize;
+
+        // 构造模糊搜索SQL
+        // 支持卡号、学号/工号、姓名三个字段的模糊匹配
+        String sql = "SELECT * FROM CampusCard_Info " +
+                "WHERE cardID LIKE ? OR personID LIKE ? OR name LIKE ? " +
+                "ORDER BY personID ASC, registerDate DESC " +
+                "LIMIT " + offset + ", " + pageSize;
+
+        String fuzzy = "%" + (keyword == null ? "" : keyword.trim()) + "%";
+        String[] params = {fuzzy, fuzzy, fuzzy};
+        ResultSet rs = null;
+        try {
+            rs = SqlHelper.executeQuery(sql, params);
+            while (rs.next()) {
+                CampusCard card = new CampusCard();
+                card.setRecordID(rs.getInt("recordID"));
+                card.setCardID(rs.getString("cardID"));
+                card.setPersonID(rs.getString("personID"));
+                card.setName(rs.getString("name"));
+                card.setGender(rs.getString("gender"));
+                card.setAvatar(rs.getString("avatar"));
+                card.setDepartment(rs.getString("department"));
+                card.setMajor(rs.getString("major"));
+                card.setGrade(rs.getString("grade"));
+                card.setClassName(rs.getString("className"));
+                card.setBalance(rs.getDouble("balance"));
+                card.setPendingBalance(rs.getDouble("pendingBalance"));
+                card.setMaxLimit(rs.getInt("maxLimit"));
+                card.setPassword(rs.getString("password"));
+                card.setPasswordPay(rs.getString("passwordPay"));
+                card.setOnlineTransfer(rs.getBoolean("isOnlineTransfer"));
+                card.setStatus(rs.getString("status"));
+                card.setCardType(rs.getString("cardType"));
+                card.setRole(rs.getString("role"));
+                card.setCampusLocation(rs.getString("campusLocation"));
+                card.setRegisterDate(rs.getDate("registerDate"));
+                card.setPhoneNumber(rs.getString("phoneNumber"));
+                card.setIDNumber(rs.getString("IDNumber"));
+                card.setEmail(rs.getString("email"));
+                card.setMessage(rs.getString("message"));
+                card.setAdmin(rs.getBoolean("isAdmin"));
+                cards.add(card);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlHelper.close(SqlHelper.getCt(), SqlHelper.getPs(), SqlHelper.getRs());
+        }
+        return cards;
+    }
+
+    public int countCardsByKeyword(String keyword) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM CampusCard_Info WHERE cardID LIKE ? OR personID LIKE ? OR name LIKE ?";
+        String fuzzy = "%" + (keyword == null ? "" : keyword.trim()) + "%";
+        String[] params = {fuzzy, fuzzy, fuzzy};
+        ResultSet rs = null;
+        try {
+            rs = SqlHelper.executeQuery(sql, params);
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlHelper.close(SqlHelper.getCt(), SqlHelper.getPs(), SqlHelper.getRs());
+        }
+        return count;
     }
 }

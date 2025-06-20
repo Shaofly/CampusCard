@@ -3,6 +3,7 @@ package com.mag.domain;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class CampusCard {
     private int recordID;                 // 数据库主键，记录号，从0开始自增
@@ -33,7 +34,12 @@ public class CampusCard {
     private boolean isAdmin;            // 是否为系统管理员
 
     //默认构造函数
-    public CampusCard() {}
+    public CampusCard() {
+        this.isAdmin=false;
+        this.isOnlineTransfer=false;
+        this.avatar=null;
+        this.message=null;
+    }
 
     //recordID
     public int getRecordID() {
@@ -257,4 +263,22 @@ public class CampusCard {
     public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+    // 自动设置卡号与开卡时间方法
+    public static CampusCard createWithAutoFields() {
+        CampusCard card = new CampusCard();
+        card.setRegisterDate(new Date());
+        card.setCardID(generateCardID(card.getRegisterDate()));
+        return card;
+    }
+
+    // 生成唯一卡号
+    public static String generateCardID(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String prefix = "CARD";
+        String timePart = sdf.format(date != null ? date : new Date());
+        int random = new Random().nextInt(900) + 100; // 100~999
+        return prefix + timePart + random;
+    }
+
 }

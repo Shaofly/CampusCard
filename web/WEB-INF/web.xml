@@ -79,7 +79,7 @@
         <url-pattern>/UserHomeServlet</url-pattern>
     </servlet-mapping>
 
-    <!-- 管理员主页显示服务 CardManageServlet -->
+    <!-- 卡片管理服务 CardManageServlet -->
     <servlet>
         <servlet-name>CardManageServlet</servlet-name>
         <servlet-class>com.mag.servlet.CardManageServlet</servlet-class>
@@ -88,6 +88,67 @@
         <servlet-name>CardManageServlet</servlet-name>
         <url-pattern>/CardManageServlet</url-pattern>
     </servlet-mapping>
+
+    <!-- 更改信息服务 UpdateCardServlet -->
+    <servlet>
+        <servlet-name>UpdateCardServlet</servlet-name>
+        <servlet-class>com.mag.servlet.UpdateCardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateCardServlet</servlet-name>
+        <url-pattern>/UpdateCardServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 注销卡片服务 CancelCardServlet -->
+    <servlet>
+        <servlet-name>CancelCardServlet</servlet-name>
+        <servlet-class>com.mag.servlet.CancelCardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelCardServlet</servlet-name>
+        <url-pattern>/CancelCardServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 搜索卡片服务 CardSearchServlet -->
+    <servlet>
+        <servlet-name>CardSearchServlet</servlet-name>
+        <servlet-class>com.mag.servlet.CardSearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CardSearchServlet</servlet-name>
+        <url-pattern>/CardSearchServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 生成开卡时间及卡号服务 CardSearchServlet -->
+    <servlet>
+        <servlet-name>AutoCardFieldsServlet</servlet-name>
+        <servlet-class>com.mag.servlet.AutoCardFieldsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AutoCardFieldsServlet</servlet-name>
+        <url-pattern>/AutoCardFieldsServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 服务 FindOldUserServlet -->
+    <servlet>
+        <servlet-name>FindOldUserServlet</servlet-name>
+        <servlet-class>com.mag.servlet.FindOldUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindOldUserServlet</servlet-name>
+        <url-pattern>/FindOldUserServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 服务 FindOldUserServlet -->
+    <servlet>
+        <servlet-name>AddCardServlet</servlet-name>
+        <servlet-class>com.mag.servlet.AddCardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCardServlet</servlet-name>
+        <url-pattern>/AddCardServlet</url-pattern>
+    </servlet-mapping>
+
 
     <!-- 欢迎页面 login.jsp -->
     <welcome-file-list>

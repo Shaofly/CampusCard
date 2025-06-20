@@ -42,6 +42,9 @@
 <%--   引入css --%>
     <link rel="stylesheet" href=" <%=request.getContextPath()%>/css/admin/sidebar.css"/>
     <link rel="stylesheet" href=" <%=request.getContextPath()%>/css/admin/main.css"/>
+    <link rel="stylesheet" href=" <%=request.getContextPath()%>/css/admin/editModal.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/modalOverlay.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/horizontalInputRow.css"/>
 </head>
 <body>
 <%-- 侧边导航栏 --%>
@@ -52,19 +55,27 @@
     </div>
     <nav class="admin-nav">
         <a href="${pageContext.request.contextPath}/AdminIndexServlet?currentPage=1&pageSize=5" class="nav-item active">统计视图</a>
-        <a href="manageCard.jsp" class="nav-item">人员管理</a>
-        <a href="approval.jsp" class="nav-item">审批处理</a>
+        <a href="${pageContext.request.contextPath}/CardManageServlet?currentPage=1&pageSize=10" class="nav-item">人员管理</a>
+        <a href="${pageContext.request.contextPath}/jsp/admin/approval.jsp" class="nav-item">审批处理</a>
     </nav>
+    <div class="admin-home">
+        <a href="${pageContext.request.contextPath}/UserHomeServlet" class="admin-home-item">
+            🏠 我的主页
+        </a>
+    </div>
     <div class="admin-sidebar-bottom">
         <a href="${pageContext.request.contextPath}/LogoutServlet" class="logout-link">退出登录</a>
     </div>
 </aside>
+<%-- 视图主要内容 --%>
 <main class="admin-main">
+    <%-- 视图头 --%>
     <div class="admin-header">
         <span class="admin-title">统计视图</span>
         <%-- 这里可以加管理员信息 --%>
-        <span class="admin-user-info">欢迎，管理员<%= loginCard.getName() %></span>
+        <span class="admin-user-info">欢迎，管理员<strong><%= loginCard.getName() %></strong></span>
     </div>
+    <%-- 仪表盘 --%>
     <div class="admin-dashboard">
         <!-- 统计卡片区域 -->
         <div class="dashboard-row">
@@ -81,39 +92,62 @@
                 <div class="dashboard-label">异常数据</div>
             </div>
         </div>
-        <%-- 卡片表格 一页7行 --%>
+        <%-- 卡片表格 一页5行 --%>
         <div class="admin-table-card">
             <div class="table-header">卡片一览</div>
-            <table class="admin-table">
-                <thead>
-                <tr>
-                    <th>学号/工号</th>
-                    <th>姓名</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <%
-                    List<CampusCard> cardList =
-                            (List<CampusCard>) request.getAttribute("cardList");
-                    if (cardList != null && !cardList.isEmpty()) {
-                        for (CampusCard card : cardList) {
-                %>
-                <tr>
-                    <td><%= card.getPersonID() %></td>
-                    <td><%= card.getName() %></td>
-                    <td><%= card.getStatus() %></td>
-                    <td><button class="edit-btn">编辑</button></td>
-                </tr>
-                <%
-                    }
-                } else {
-                %>
-                <tr><td colspan="4">暂无数据</td></tr>
-                <% } %>
-                </tbody>
-            </table>
+            <div class="table-content">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>学号/工号</th>
+                        <th>姓名</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%
+                        List<CampusCard> cardList =
+                                (List<CampusCard>) request.getAttribute("cardList");
+                        if (cardList != null && !cardList.isEmpty()) {
+                            for (CampusCard card : cardList) {
+                    %>
+                    <tr>
+                        <td><%= card.getPersonID() %></td>
+                        <td><%= card.getName() %></td>
+                        <td><%= card.getStatus() %></td>
+                        <td>
+                            <button class="edit-btn"
+                                    onclick='openAdminEditModal({
+                                            cardID: "<%= card.getCardID() %>",
+                                            name: "<%= card.getName() %>",
+                                            personID: "<%= card.getPersonID() %>",
+                                            gender: "<%= card.getGender() %>",
+                                            department: "<%= card.getDepartment() %>",
+                                            major: "<%= card.getMajor() %>",
+                                            status: "<%= card.getStatus() %>",
+                                            cardType: "<%= card.getCardType() %>",
+                                            campusLocation: "<%= card.getCampusLocation() %>",
+                                            role: "<%= card.getRole() %>",
+                                            registerDate: "<%= card.getRegisterDateString() %>",
+                                            IDNumber: "<%= card.getIDNumber() %>",
+                                            password: "<%= card.getPassword() == null ? "" : card.getPassword() %>",
+                                            passwordPay: "<%= card.getPasswordPay() == null ? "" : card.getPasswordPay() %>",
+                                            phoneNumber: "<%= card.getPhoneNumber() %>",
+                                            email: "<%= card.getEmail() %>",
+                                            maxLimit: "<%= card.getMaxLimit() %>"
+                                            })'>编辑</button>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr><td colspan="4">暂无数据</td></tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
             <%-- 分页控件 --%>
             <div class="pagination">
                 <%
@@ -180,5 +214,194 @@
         </div>
     </div>
 </main>
+
+<!-- 编辑校园卡信息弹窗（管理员专用） -->
+<div id="admin-edit-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+        <h3>编辑校园卡信息</h3>
+        <form id="admin-edit-form" autocomplete="off">
+            <div class="modal-form-grid">
+                <!-- 卡号（只读） -->
+                <div class="input-row-horizontal">
+                    <label>卡号</label>
+                    <input type="text" id="edit-cardID" name="cardID" required readonly>
+                </div>
+                <!-- 姓名 -->
+                <div class="input-row-horizontal">
+                    <label>姓名</label>
+                    <input type="text" id="edit-name" name="name" required>
+                </div>
+                <!-- 学号 -->
+                <div class="input-row-horizontal">
+                    <label>学号</label>
+                    <input type="text" id="edit-personID" name="personID" required readonly>
+                </div>
+                <!-- 性别 -->
+                <div class="input-row-horizontal">
+                    <label>性别</label>
+                    <select id="edit-gender" name="gender" required>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <!-- 学院 -->
+                <div class="input-row-horizontal">
+                    <label>学院</label>
+                    <input type="text" id="edit-department" name="department">
+                </div>
+                <!-- 专业 -->
+                <div class="input-row-horizontal">
+                    <label>专业</label>
+                    <input type="text" id="edit-major" name="major">
+                </div>
+                <!-- 状态 -->
+                <div class="input-row-horizontal">
+                    <label>状态</label>
+                    <select id="edit-status" name="status" required>
+                        <option value="正常">正常</option>
+                        <option value="挂失">挂失</option>
+                        <option value="冻结">冻结</option>
+                        <option value="注销">注销</option>
+                    </select>
+                </div>
+                <!-- 类型 -->
+                <div class="input-row-horizontal">
+                    <label>类型</label>
+                    <select id="edit-cardType" name="cardType" required>
+                        <option value="正式">正式</option>
+                        <option value="临时">临时</option>
+                    </select>
+                </div>
+                <!-- 校区 -->
+                <div class="input-row-horizontal">
+                    <label>校区</label>
+                    <select id="edit-campusLocation" name="campusLocation" required>
+                        <option value="合肥校区">合肥校区</option>
+                        <option value="宣城校区">宣城校区</option>
+                    </select>
+                </div>
+                <!-- 身份 -->
+                <div class="input-row-horizontal">
+                    <label>身份</label>
+                    <input type="text" id="edit-role" name="role" required>
+                </div>
+                <!-- 开卡日期（只读） -->
+                <div class="input-row-horizontal">
+                    <label>开卡日期</label>
+                    <input type="text" id="edit-registerDate" name="registerDate" readonly>
+                </div>
+                <!-- 身份证号 -->
+                <div class="input-row-horizontal">
+                    <label>身份证号</label>
+                    <input type="text" id="edit-IDNumber" name="IDNumber">
+                </div>
+                <!-- 只读：手机号、邮箱 -->
+                <div class="input-row-horizontal">
+                    <label>手机号</label>
+                    <input type="text" id="edit-phoneNumber" name="phoneNumber" readonly>
+                </div>
+                <div class="input-row-horizontal">
+                    <label>邮箱</label>
+                    <input type="text" id="edit-email" name="email" readonly>
+                </div>
+                <!-- 登录密码 -->
+                <div class="input-row-horizontal">
+                    <label>登录密码</label>
+                    <input type="password" id="edit-password" name="password">
+                    <button type="button" class="password-toggle-btn" onclick="togglePassword('edit-password', this)">显示</button>
+                </div>
+                <!-- 支付密码 -->
+                <div class="input-row-horizontal">
+                    <label>支付密码</label>
+                    <input type="password" id="edit-passwordPay" name="passwordPay">
+                    <button type="button" class="password-toggle-btn" onclick="togglePassword('edit-passwordPay', this)">显示</button>
+                </div>
+                <!-- 单次限额 -->
+                <div class="input-row-horizontal">
+                    <label>单次限额</label>
+                    <input type="number" id="edit-maxLimit" name="maxLimit">
+                </div>
+            </div>
+            <div class="modal-btn-row">
+                <button type="submit" class="modal-confirm-btn">保存</button>
+                <button type="button" class="modal-cancel-btn" onclick="closeAdminEditModal()">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // 打开编辑弹窗，card为当前行的卡片对象
+    function openAdminEditModal(card) {
+        document.getElementById('admin-edit-modal').style.display = 'flex';
+        // 填充表单
+        document.getElementById('edit-cardID').value = card.cardID;
+        document.getElementById('edit-name').value = card.name;
+        document.getElementById('edit-personID').value = card.personID;
+        document.getElementById('edit-gender').value = card.gender;
+        document.getElementById('edit-department').value = card.department;
+        document.getElementById('edit-major').value = card.major;
+        document.getElementById('edit-status').value = card.status;
+        document.getElementById('edit-cardType').value = card.cardType;
+        document.getElementById('edit-campusLocation').value = card.campusLocation;
+        document.getElementById('edit-role').value = card.role;
+        document.getElementById('edit-registerDate').value = card.registerDate; // yyyy-MM-dd
+        document.getElementById('edit-IDNumber').value = card.IDNumber;
+        document.getElementById('edit-password').value = card.password || '';
+        document.getElementById('edit-passwordPay').value = card.passwordPay || '';
+        document.getElementById('edit-phoneNumber').value = card.phoneNumber;
+        document.getElementById('edit-email').value = card.email;
+        document.getElementById('edit-maxLimit').value = card.maxLimit;
+    }
+
+    function closeAdminEditModal() {
+        const modal = document.getElementById('admin-edit-modal');
+        modal.classList.add('closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+        }, 350);
+    }
+
+    // 提交表单
+    document.getElementById('admin-edit-form').onsubmit = function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%= request.getContextPath() %>/UpdateCardServlet", true);
+
+        // 关键补丁：设置 Content-Type
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                closeAdminEditModal();
+                try {
+                    const res = JSON.parse(xhr.responseText);
+                    if (xhr.status === 200 && res.success) {
+                        alert("保存成功！");
+                        location.reload();
+                    } else {
+                        alert("保存失败：" + (res.msg || "未知错误"));
+                    }
+                } catch (err) {
+                    alert("服务器异常：" + xhr.responseText);
+                }
+            }
+        };
+        xhr.send(new URLSearchParams(formData).toString());
+    };
+
+    // 显示密码按钮
+    function togglePassword(inputId, btn) {
+        const pwdInput = document.getElementById(inputId);
+        if (pwdInput.type === 'password') {
+            pwdInput.type = 'text';
+            btn.textContent = '隐藏';
+        } else {
+            pwdInput.type = 'password';
+            btn.textContent = '显示';
+        }
+    }
+</script>
 </body>
 </html>

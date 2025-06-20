@@ -27,6 +27,11 @@
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/home.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/transferModal.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/profileModal.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/modalOverlay.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/verticalInputRow.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/horizontalInputRow.css"/>
     <title>我的主页</title>
 </head>
 
@@ -41,7 +46,7 @@
         <%= card.getName() %>
         <%-- 悬浮菜单 --%>
         <div class="dropdown-content">
-            <a href="#">个人信息</a>
+            <a href="#" id="user-info-btn">个人信息</a>
             <a href="#">系统设置</a>
             <a href="${pageContext.request.contextPath}/LogoutServlet">退出登录</a>
         </div>
@@ -50,8 +55,16 @@
 
 <div class="main-content">
     <div class="card-row">
+        <%
+            // 判断头像地址是否为空
+            String avatarPath = card.getAvatar();
+            if (avatarPath == null || avatarPath.trim().isEmpty()) {
+                avatarPath = "/img/userAvatar/default.png";
+            }
+        %>
         <div class="card profile-card">
-            <img src="<%= card.getAvatar() %>" class="avatar" alt="头像">
+            <img src='<%= request.getContextPath() + avatarPath %>' class="avatar" alt="未设置头像"
+                 onerror="this.onerror=null;this.src='/img/userAvatar/default.png';">
             <div class="info">
                 <h3 style="font-size: 20px">基本信息</h3>
                 <p>姓名：<%= card.getName() %></p>
@@ -94,7 +107,7 @@
                 <input type="number" placeholder="转账金额" min="0" step="5"
                        oninput="this.value = this.value < 0 ? '' : this.value;">
                 <!-- 判断输入是否为负数 -->
-                <input type="button" value="转账"
+                <input type="button" class="myTransaction-btn" value="转账"
                        onclick="openModal(
                            document.querySelector('.transfer-card input[type=text]').value,
                            document.querySelector('.transfer-card input[type=number]').value
@@ -117,35 +130,35 @@
         color: #000;
         text-decoration: none;
         border-radius: 6px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 500;
         box-shadow: 0 2px 8px rgba(79,140,255,0.10);
         transition: background 0.2s;">
-        🚀 管理员界面
+        🚀 管理页面
     </a>
 </div>
 <%
     }
 %>
 
-<!-- 遮罩层+弹窗 -->
+<!-- 遮罩层 + 转账弹窗 -->
 <div id="transfer-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-card">
+    <div class="transfer-modal-card">
         <h3>转账验证</h3>
         <form id="modal-transfer-form" autocomplete="off">
-            <div class="input-row">
+            <div class="input-row-vertical">
                 <label>被转账人学号</label>
                 <input type="text" id="modal-personID" name="personID" required readonly>
             </div>
-            <div class="input-row">
+            <div class="input-row-vertical">
                 <label>被转账人姓名</label>
                 <input type="text" id="modal-name" name="name" required>
             </div>
-            <div class="input-row">
+            <div class="input-row-vertical">
                 <label>转账金额</label>
                 <input type="number" id="modal-amount" name="amount" required readonly>
             </div>
-            <div class="input-row">
+            <div class="input-row-vertical">
                 <label>支付密码</label>
                 <input type="password" id="modal-passwordPay" name="passwordPay" required>
             </div>
@@ -157,6 +170,60 @@
     </div>
 </div>
 
+<!-- 遮罩层 + 个人信息编辑弹窗 -->
+<div id="user-edit-modal" class="modal-overlay" style="display: none;">
+    <div class="profile-modal-card">
+        <h3 style="font-size: 24px">个人信息</h3>
+        <form id="user-edit-form" autocomplete="off">
+            <div class="profile-modal-form-grid">
+                <!-- 姓名（只读） -->
+                <div class="input-row-horizontal">
+                    <label>姓名</label>
+                    <input type="text" id="user-name" name="name" required readonly>
+                </div>
+                <!-- 性别（只读） -->
+                <div class="input-row-horizontal">
+                    <label>性别</label>
+                    <input type="text" id="user-gender" name="gender" required readonly>
+                </div>
+                <!-- 学号（只读） -->
+                <div class="input-row-horizontal">
+                    <label>学号</label>
+                    <input type="text" id="user-personID" name="personID" required readonly>
+                </div>
+                <!-- 学院（只读） -->
+                <div class="input-row-horizontal">
+                    <label>学院</label>
+                    <input type="text" id="user-department" name="department" required readonly>
+                </div>
+                <!-- 专业（只读） -->
+                <div class="input-row-horizontal">
+                    <label>专业</label>
+                    <input type="text" id="user-major" name="major" required readonly>
+                </div>
+                <!-- 手机号 -->
+                <div class="input-row-horizontal">
+                    <label>手机号</label>
+                    <input type="text" id="user-phoneNumber" name="phoneNumber">
+                </div>
+                <!-- 单词消费限额 -->
+                <div class="input-row-horizontal">
+                    <label>单次消费限额</label>
+                    <input type="text" id="user-maxLimit" name="maxLimit" required readonly>
+                </div>
+                <!-- 邮箱 -->
+                <div class="input-row-horizontal">
+                    <label>邮箱</label>
+                    <input type="email" id="user-email" name="email">
+                </div>
+            </div>
+            <div class="modal-btn-row">
+                <button type="submit" class="modal-confirm-btn">保存</button>
+                <button type="button" class="modal-cancel-btn" onclick="closeUserEditModal()">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
 <script>
     function openModal(personID,amount) {
         document.getElementById('transfer-modal').style.display = 'flex';
@@ -169,7 +236,7 @@
     // 关闭弹窗（带动画）
     function closeModal() {
         const modalOverlay = document.getElementById('transfer-modal');
-        const modalCard = modalOverlay.querySelector('.modal-card');
+        const modalCard = modalOverlay.querySelector('.transfer-modal-card');
         modalOverlay.classList.add('closing');
         modalCard.classList.add('closing');
         setTimeout(() => {
@@ -221,6 +288,71 @@
             "&amount=" + encodeURIComponent(amount) +
             "&passwordPay=" + encodeURIComponent(passwordPay)
         );
+    };
+
+
+    // 打开个人信息弹窗，并填充当前用户信息（card是CampusCard对象）
+    function openUserEditModal(card) {
+        document.getElementById('user-edit-modal').style.display = 'flex';
+        document.getElementById('user-name').value = card.name || '';
+        document.getElementById('user-gender').value = card.gender || '';
+        document.getElementById('user-personID').value = card.personID || '';
+        document.getElementById('user-department').value = card.department || '';
+        document.getElementById('user-major').value = card.major || '';
+        document.getElementById('user-phoneNumber').value = card.phoneNumber || '';
+        document.getElementById('user-email').value = card.email || '';
+        document.getElementById('user-maxLimit').value = card.maxLimit || '';
+    }
+
+    // 关闭弹窗动画
+    function closeUserEditModal() {
+        const modal = document.getElementById('user-edit-modal');
+        modal.classList.add('closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+        }, 350);
+    }
+
+    // 个人信息表单提交（走 UpdateCardServlet）
+    document.getElementById('user-edit-form').onsubmit = function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%= request.getContextPath() %>/UpdateCardServlet", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                closeUserEditModal();
+                try {
+                    const res = JSON.parse(xhr.responseText);
+                    if (xhr.status === 200 && res.success) {
+                        alert("保存成功！");
+                        location.reload();
+                    } else {
+                        alert("保存失败：" + (res.msg || "未知错误"));
+                    }
+                } catch (err) {
+                    alert("服务器异常：" + xhr.responseText);
+                }
+            }
+        };
+        xhr.send(new URLSearchParams(formData).toString());
+    };
+
+    document.getElementById('user-info-btn').onclick = function(e) {
+        e.preventDefault(); // 防止跳转
+        openUserEditModal({
+            name: "<%= card.getName() %>",
+            gender: "<%= card.getGender() %>",
+            personID: "<%= card.getPersonID() %>",
+            department: "<%= card.getDepartment() %>",
+            major: "<%= card.getMajor() %>",
+            phoneNumber: "<%= card.getPhoneNumber() %>",
+            email: "<%= card.getEmail() %>",
+            maxLimit: <%= card.getMaxLimit() %>
+        });
     };
 </script>
 </body>

@@ -1,0 +1,183 @@
+/* 选择办卡类型弹窗 */
+.add-card-modal {
+    background: rgba(255,255,255,0.98);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 30px 30px 22px 30px;
+    min-width: 290px;
+    max-width: 96vw;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(79,140,255,0.13);
+    margin: auto;
+    position: relative;
+    animation: popIn 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.add-card-modal h3 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1e2436;
+    margin-bottom: 18px;
+}
+.add-card-modal .choice-btn {
+    padding: 10px 32px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg,#4f8cff,#1e90ff);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0 14px;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+    transition: background 0.16s;
+}
+.add-card-modal .choice-btn:hover { background: linear-gradient(90deg,#3572e8,#005bb5); }
+
+/* 老用户输入学号弹窗 */
+.old-user-modal {
+    background: rgba(255,255,255,0.98);
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 22px 26px 16px 26px;
+    min-width: 270px;
+    max-width: 96vw;
+    text-align: center;
+    box-shadow: 0 7px 28px rgba(79,140,255,0.11);
+    margin: auto;
+    position: relative;
+    animation: popIn 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.old-user-modal h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #3266e6;
+    margin-bottom: 12px;
+}
+.old-user-modal .modal-btn-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 10px;
+}
+.old-user-modal .confirm-btn,
+.old-user-modal .cancel-btn {
+    padding: 9px 28px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+    transition: background 0.17s;
+}
+.old-user-modal .confirm-btn {
+    background: linear-gradient(90deg,#4f8cff,#1e90ff);
+    color: #fff;
+}
+.old-user-modal .confirm-btn:hover { background: linear-gradient(90deg,#3572e8,#005bb5);}
+.old-user-modal .cancel-btn {
+    background: #e3e6ea;
+    color: #555;
+}
+.old-user-modal .cancel-btn:hover { background: #c0c4c8; }
+
+/* 新增卡片详细信息弹窗 双列grid布局 */
+.add-card-modal-card {
+    background: rgba(255,255,255,0.98);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 34px 38px 22px 38px;
+    min-width: 420px;
+    max-width: 1100px;
+    width: 54vw;
+    box-shadow: 0 8px 36px rgba(79,140,255,0.14);
+    margin: auto;
+    position: relative;
+    animation: popIn 0.35s cubic-bezier(0.4,0,0.2,1);
+    max-height: 86vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.add-card-modal-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e2436;
+    margin-bottom: 14px;
+    text-align: center;
+}
+.add-card-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 28px;
+    margin: 24px 0 10px 0;
+}
+@media (max-width: 800px) {
+    .add-card-form-grid {
+        grid-template-columns: 1fr;
+        gap: 12px 0;
+        width: 100%;
+    }
+}
+.add-card-btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 10px;
+}
+.add-card-modal-card .add-card-confirm-btn,
+.add-card-modal-card .add-card-cancel-btn {
+    padding: 10px 36px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.17s;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+}
+.add-card-modal-card .add-card-confirm-btn {
+    background: linear-gradient(90deg,#4f8cff,#1e90ff);
+    color: #fff;
+}
+.add-card-modal-card .add-card-confirm-btn:hover {
+    background: linear-gradient(90deg,#3572e8,#005bb5);
+}
+.add-card-modal-card .add-card-cancel-btn {
+    background: #e3e6ea;
+    color: #555;
+}
+.add-card-modal-card .add-card-cancel-btn:hover {
+    background: #c0c4c8;
+}
+
+/* 通用弹窗卡片动画 */
+@keyframes popIn {
+    0% { transform: scale(0.87); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes popOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.87); opacity: 0; }
+}
+.add-card-modal-card.closing,
+.old-user-modal.closing,
+.add-card-modal.closing {
+    animation: popOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 弹窗卡片动画 */
+@keyframes popIn {
+    0% { transform: scale(0.87); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes popOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.87); opacity: 0; }
+}
+
+.add-card-modal-card.closing,
+.old-user-modal.closing,
+.add-card-modal.closing {
+    animation: popOut 0.35s cubic-bezier(0.4,0,0.2,1) forwards;
+}

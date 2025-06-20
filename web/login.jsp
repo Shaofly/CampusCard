@@ -19,7 +19,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('./img/loginBackground.jpg');
+            background-image: url('./img/dayLake.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
