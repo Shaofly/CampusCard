@@ -24,7 +24,7 @@ public class CampusCard {
     private boolean isOnlineTransfer;   // 是否支持在线转账（微信、支付宝）
     private String status;              // 卡状态（正常/挂失/冻结/注销）
     private String cardType;            // 卡类型（正常/临时）
-    private String role;                // 卡所属人身份（学生/教室/后勤/附属中小学生）
+    private String role;                // 卡所属人身份（学生/教师/后勤/附属中小学生）
     private String campusLocation;      // 校区位置（合肥校区/宣城校区）
     private Date registerDate;          // 开卡日期（输入输出标准YYYY-MM-DD）
     private String phoneNumber;         // 手机号

@@ -12,7 +12,7 @@ public class TransactionRecordService {
     public TransactionRecordService() {}
 
     // 新增一条交易记录
-    public boolean addRecord(TransactionRecord record) {
+    public boolean insertRecord(TransactionRecord record) {
         return recordDAO.insertRecord(record);
     }
 

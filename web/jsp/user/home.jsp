@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/home.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/transferModal.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/profileModal.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/transactionModal.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/modalOverlay.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/verticalInputRow.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/horizontalInputRow.css"/>
@@ -70,16 +71,15 @@
                 <p>姓名：<%= card.getName() %></p>
                 <p>学号：<%= card.getPersonID() %></p>
                 <p>电话：<%= card.getPhoneNumber() %></p>
-                <a href="${pageContext.request.contextPath}/jsp/user/myTransactions.jsp"
-                   class="myTransaction-btn">查看流水</a>
+                <button type="button" class="myTransaction-btn" onclick="showRecentTransactions()">查看流水</button>
             </div>
         </div>
 
         <div class="card balance-card">
             <h3>账户余额</h3>
-            <p>¥<%= card.getBalance() %></p>
+            <p>¥<%= String.format("%.2f", card.getBalance()) %></p>
             <h4>待圈存金额</h4>
-            <p>¥<%= card.getPendingBalance() %></p>
+            <p>¥<%= String.format("%.2f", card.getPendingBalance()) %></p>
         </div>
     </div>
 
@@ -88,15 +88,25 @@
             <h3>系统公告</h3>
             <ul>
                 <li>6月10日系统维护</li>
-                <li>新版UI上线</li>
+                <li>6月16日系统维护</li>
             </ul>
         </div>
 
         <div class="card message-card">
             <h3>我的消息</h3>
             <ul>
-                <li>你收到来自李四的转账 ¥20.00</li>
-                <li>6月6日消费：¥15.80</li>
+                <%
+                    String message = card.getMessage();
+                    if (message == null || message.trim().isEmpty()) {
+                %>
+                <li>暂无消息</li>
+                <%
+                } else {
+                %>
+                <li><%= message %></li>
+                <%
+                    }
+                %>
             </ul>
         </div>
 
@@ -224,6 +234,30 @@
         </form>
     </div>
 </div>
+
+<div id="transaction-modal" class="modal-overlay" style="display:none;">
+    <div class="transaction-modal-card">
+        <h3>最近10条交易流水</h3>
+        <div id="transaction-table-wrapper">
+            <!-- 数据动态填充 -->
+            <table>
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>类型</th>
+                    <th>时间</th>
+                    <th>地点</th>
+                </tr>
+                </thead>
+                <tbody id="transaction-tbody"></tbody>
+            </table>
+        </div>
+        <div style="text-align:right;padding-top:12px;">
+            <button onclick="closeTransactionModal()">关闭</button>
+        </div>
+    </div>
+</div>
+
 <script>
     function openModal(personID,amount) {
         document.getElementById('transfer-modal').style.display = 'flex';
@@ -354,6 +388,41 @@
             maxLimit: <%= card.getMaxLimit() %>
         });
     };
+
+    // 查询最近流水记录
+    function showRecentTransactions() {
+        // 假设页面上有全局personID变量，如果没有可直接拼接JSP：
+        var personID = '<%= card.getPersonID() %>';
+        fetch('<%=request.getContextPath()%>/RecentTransactionServlet?personID=' + encodeURIComponent(personID))
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    alert(data.msg || '查询失败');
+                    return;
+                }
+                var tbody = document.getElementById('transaction-tbody');
+                tbody.innerHTML = "";
+                if (!data.data || data.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4">暂无数据</td></tr>';
+                } else {
+                    data.data.forEach(item => {
+                        var tr = document.createElement('tr');
+                        tr.innerHTML = '<td>' + item.recordID + '</td>' +
+                            '<td>' + item.type + '</td>' +
+                            '<td>' + item.transactionTime + '</td>' +
+                            '<td>' + item.location + '</td>';
+                        tbody.appendChild(tr);
+                    });
+                }
+                document.getElementById('transaction-modal').style.display = 'flex';
+            }).catch(() => {
+            alert("服务器异常");
+        });
+    }
+
+    function closeTransactionModal() {
+        document.getElementById('transaction-modal').style.display = 'none';
+    }
 </script>
 </body>
 

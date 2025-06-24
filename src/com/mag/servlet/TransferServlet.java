@@ -1,10 +1,9 @@
 package com.mag.servlet;
 
-import com.mag.dao.CardDAO;
 import com.mag.domain.CampusCard;
+import com.mag.domain.TransactionRecord;
 import com.mag.service.CardService;
-// import com.mag.dao.TransactionRecordDAO; // 后续可以加
-// import com.mag.domain.TransactionRecord;
+import com.mag.service.TransactionRecordService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -13,7 +12,7 @@ import java.io.PrintWriter;
 
 public class TransferServlet extends HttpServlet {
     private final CardService cardService = new CardService();
-    // TODO: private final TransactionRecordDAO recordDAO = new TransactionRecordDAO();
+    private final TransactionRecordService recordService = new TransactionRecordService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -98,10 +97,47 @@ public class TransferServlet extends HttpServlet {
             sender.setPendingBalance(senderNewPending);
             session.setAttribute("loginCard", sender);
 
-            // 6. 生成转账流水记录（TODO: 实际应插入两条记录：一条“转出”，一条“转入”）
-            // 示例：recordDAO.insertTransferRecord(sender, receiver, amount, ...);
+            // 6. 生成转账流水记录（插入两条记录：一条“转出”，一条“转入”）
+            java.util.Date now = new java.util.Date();
 
-            out.write("{\"success\":true, \"msg\":\"转账成功！\"}");
+            // 6.1. 转出方流水（sender）
+            TransactionRecord outRecord = new TransactionRecord();
+            outRecord.setPersonID(sender.getPersonID());
+            outRecord.setType("转出");
+            outRecord.setAmount(-amount); // 支出记负数
+            outRecord.setLocation("ONLINE");
+            outRecord.setTransactionTime(now);
+            outRecord.setPendingBalanceAfter(senderNewPending); // 注意用扣钱后的pending
+            outRecord.setSenderPersonID(null); // 本人
+            outRecord.setReceiverPersonID(receiver.getPersonID());
+            outRecord.setRelatedToRecordID(null);
+            outRecord.setDescription("你于" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(now)
+                    + " 向 " + receiver.getName() + "(" + receiver.getPersonID() + ") 转出 " + amount + " 元");
+
+            // 6.2. 转入方流水（receiver）
+            TransactionRecord inRecord = new TransactionRecord();
+            inRecord.setPersonID(receiver.getPersonID());
+            inRecord.setType("转入");
+            inRecord.setAmount(amount); // 收入记正数
+            inRecord.setLocation("ONLINE");
+            inRecord.setTransactionTime(now);
+            inRecord.setPendingBalanceAfter(receiverNewPending); // 加钱后的pending
+            inRecord.setSenderPersonID(sender.getPersonID());
+            inRecord.setReceiverPersonID(null); // 本人
+            inRecord.setRelatedToRecordID(null);
+            inRecord.setDescription("你于" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(now)
+                    + " 收到 " + sender.getName() + "(" + sender.getPersonID() + ") 转账 " + amount + " 元");
+
+            // 插入两条记录
+            boolean rec1 = recordService.insertRecord(outRecord);
+            boolean rec2 = recordService.insertRecord(inRecord);
+
+            if (rec1 && rec2) {
+                out.write("{\"success\":true, \"msg\":\"转账成功！\"}");
+            } else {
+                out.write("{\"success\":false, \"msg\":\"转账成功但流水记录失败！\"}");
+            }
+
         } else {
             out.write("{\"success\":false, \"msg\":\"转账失败，系统异常！\"}");
         }

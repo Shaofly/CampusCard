@@ -86,7 +86,7 @@ public class TransactionRecordDAO {
 
     // 查询某人最近N条流水
     public List<TransactionRecord> findRecentRecords(String personID, int limit) {
-        String sql = "SELECT * FROM TransactionRecord_Info WHERE personID = ? ORDER BY transactionTime DESC LIMIT + limit";
+        String sql = "SELECT * FROM TransactionRecord_Info WHERE personID = ? ORDER BY transactionTime DESC LIMIT "+limit;
         List<TransactionRecord> list = new ArrayList<>();
         ResultSet rs = null;
         try {

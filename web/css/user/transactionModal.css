@@ -1,0 +1,75 @@
+.transaction-modal-card {
+    width: 420px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 6px 28px 0 rgba(79,140,255,0.16);
+    margin: auto;
+    padding: 30px 28px 18px 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    animation: popIn 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.transaction-modal-card h3 {
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 18px;
+    color: #3366cc;
+    letter-spacing: 1px;
+}
+
+#transaction-table-wrapper {
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+}
+
+.transaction-modal-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background: #f6faff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.transaction-modal-card th,
+.transaction-modal-card td {
+    padding: 8px 0;
+    text-align: center;
+    font-size: 15px;
+}
+
+.transaction-modal-card th {
+    background: #e6f0ff;
+    font-weight: 700;
+    border-bottom: 1.5px solid #c8dfff;
+}
+
+.transaction-modal-card td {
+    border-bottom: 1px solid #f1f4fa;
+}
+
+.transaction-modal-card tr:last-child td {
+    border-bottom: none;
+}
+
+.transaction-modal-card button {
+    background: #4078ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-size: 15px;
+    margin-left: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(64,120,255,0.08);
+    transition: background 0.2s;
+}
+
+.transaction-modal-card button:hover {
+    background: #2456d2;
+}

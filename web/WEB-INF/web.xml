@@ -149,6 +149,16 @@
         <url-pattern>/AddCardServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- 服务 RecentTransactionServlet -->
+    <servlet>
+        <servlet-name>RecentTransactionServlet</servlet-name>
+        <servlet-class>com.mag.servlet.RecentTransactionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RecentTransactionServlet</servlet-name>
+        <url-pattern>/RecentTransactionServlet</url-pattern>
+    </servlet-mapping>
+
 
     <!-- 欢迎页面 login.jsp -->
     <welcome-file-list>

@@ -228,17 +228,20 @@
                 <!-- 姓名 -->
                 <div class="input-row-horizontal">
                     <label>姓名</label>
-                    <input type="text" id="edit-name" name="name" required>
+                    <input type="text" id="edit-name" name="name" pattern="^[\u4e00-\u9fa5]{1,12}$" title="姓名必须为1-12位汉字" required>
                 </div>
                 <!-- 学号 -->
                 <div class="input-row-horizontal">
                     <label>学号</label>
-                    <input type="text" id="edit-personID" name="personID" required readonly>
+                    <input type="text" id="edit-personID" name="personID" pattern="\d{10}" title="学号/工号必须为10位数字" required readonly>
                 </div>
                 <!-- 性别 -->
                 <div class="input-row-horizontal">
                     <label>性别</label>
-                    <input type="text" id="edit-gender" name="gender" required>
+                    <select id="edit-gender" name="gender" required>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
                 </div>
                 <!-- 学院 -->
                 <div class="input-row-horizontal">
@@ -279,43 +282,49 @@
                 <!-- 身份 -->
                 <div class="input-row-horizontal">
                     <label>身份</label>
-                    <input type="text" id="edit-role" name="role" required>
+                    <select id="edit-role" name="role" required>
+                        <option value="">请选择身份</option>
+                        <option value="学生">学生</option>
+                        <option value="教师">教师</option>
+                        <option value="后勤">后勤</option>
+                        <option value="附属中小学生">附属中小学生</option>
+                    </select>
                 </div>
                 <!-- 开卡日期（只读） -->
                 <div class="input-row-horizontal">
                     <label>开卡日期</label>
-                    <input type="text" id="edit-registerDate" name="registerDate" readonly>
+                    <input type="text" id="edit-registerDate" name="registerDate" required readonly>
                 </div>
                 <!-- 身份证号 -->
                 <div class="input-row-horizontal">
                     <label>身份证号</label>
-                    <input type="text" id="edit-IDNumber" name="IDNumber">
+                    <input type="text" id="edit-IDNumber" name="IDNumber" pattern="^\d{17}[\dXx]$" title="请输入18位身份证号" required>
                 </div>
                 <!-- 只读：手机号、邮箱 -->
                 <div class="input-row-horizontal">
                     <label>手机号</label>
-                    <input type="text" id="edit-phoneNumber" name="phoneNumber" readonly>
+                    <input type="text" id="edit-phoneNumber" name="phoneNumber" pattern="^1[3-9]\d{9}$" title="请输入以1开头的11位有效手机号" required readonly>
                 </div>
                 <div class="input-row-horizontal">
                     <label>邮箱</label>
-                    <input type="text" id="edit-email" name="email" readonly>
+                    <input type="text" id="edit-email" name="email" title="请输入有效邮箱" readonly>
                 </div>
                 <!-- 登录密码 -->
                 <div class="input-row-horizontal">
                     <label>登录密码</label>
-                    <input type="password" id="edit-password" name="password">
+                    <input type="password" id="edit-password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d_.]{8,20}$" title="密码需8-20位，必须包含大小写字母和数字，可含_和.">
                     <button type="button" class="password-toggle-btn" onclick="togglePassword('edit-password', this)">显示</button>
                 </div>
                 <!-- 支付密码 -->
                 <div class="input-row-horizontal">
                     <label>支付密码</label>
-                    <input type="password" id="edit-passwordPay" name="passwordPay">
+                    <input type="password" id="edit-passwordPay" name="passwordPay" pattern="^\d{6}$" title="支付密码必须为6位数字" required>
                     <button type="button" class="password-toggle-btn" onclick="togglePassword('edit-passwordPay', this)">显示</button>
                 </div>
                 <!-- 单次限额 -->
                 <div class="input-row-horizontal">
                     <label>单次限额</label>
-                    <input type="number" id="edit-maxLimit" name="maxLimit">
+                    <input type="number" id="edit-maxLimit" name="maxLimit" required>
                 </div>
             </div>
             <div class="modal-btn-row">
@@ -371,17 +380,20 @@
                 <!-- 学号/工号（只读/或可编辑, 视业务而定）干脆做成可读了 -->
                 <div class="input-row-horizontal">
                     <label>学号/工号</label>
-                    <input type="text" id="add-personID" name="personID" required>
+                    <input type="text" id="add-personID" name="personID" pattern="\d{10}" title="学号/工号必须为10位数字" required>
                 </div>
                 <!-- 姓名 -->
                 <div class="input-row-horizontal">
                     <label>姓名</label>
-                    <input type="text" id="add-name" name="name" required>
+                    <input type="text" id="add-name" name="name" pattern="^[\u4e00-\u9fa5]{1,12}$" title="姓名必须为1-12位汉字" required>
                 </div>
                 <!-- 性别 -->
                 <div class="input-row-horizontal">
                     <label>性别</label>
-                    <input type="text" id="add-gender" name="gender" required>
+                    <select id="add-gender" name="gender" required>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>>
                 </div>
                 <!-- 学院 -->
                 <div class="input-row-horizontal">
@@ -421,13 +433,13 @@
                 <!-- 登录密码 -->
                 <div class="input-row-horizontal">
                     <label>登录密码</label>
-                    <input type="password" id="add-password" name="password" required>
+                    <input type="password" id="add-password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d_.]{8,20}$" title="密码需8-20位，必须包含大小写字母和数字，可含_和." required>
                     <button type="button" class="password-toggle-btn" onclick="togglePassword('add-password', this)">显示</button>
                 </div>
                 <!-- 支付密码 -->
                 <div class="input-row-horizontal">
                     <label>支付密码</label>
-                    <input type="password" id="add-passwordPay" name="passwordPay" required>
+                    <input type="password" id="add-passwordPay" name="passwordPay" pattern="^\d{6}$" title="支付密码必须为6位数字" required>
                     <button type="button" class="password-toggle-btn" onclick="togglePassword('add-passwordPay', this)">显示</button>
                 </div>
                 <!-- 是否支持在线转账 -->
@@ -459,7 +471,13 @@
                 <!-- 身份 -->
                 <div class="input-row-horizontal">
                     <label>身份</label>
-                    <input type="text" id="add-role" name="role" required>
+                    <select id="add-role" name="role" required>
+                        <option value="">请选择身份</option>
+                        <option value="学生">学生</option>
+                        <option value="教师">教师</option>
+                        <option value="后勤">后勤</option>
+                        <option value="附属中小学生">附属中小学生</option>
+                    </select>
                 </div>
                 <!-- 校区 -->
                 <div class="input-row-horizontal">
@@ -472,12 +490,12 @@
                 <!-- 手机号 -->
                 <div class="input-row-horizontal">
                     <label>手机号</label>
-                    <input type="text" id="add-phoneNumber" name="phoneNumber" required>
+                    <input type="text" id="add-phoneNumber" name="phoneNumber" pattern="^1[3-9]\d{9}$" title="请输入以1开头的11位有效手机号" required>
                 </div>
                 <!-- 身份证号 -->
                 <div class="input-row-horizontal">
                     <label>身份证号</label>
-                    <input type="text" id="add-IDNumber" name="IDNumber" required>
+                    <input type="text" id="add-IDNumber" name="IDNumber" pattern="^\d{17}[\dXx]$" title="请输入18位身份证号" required>
                 </div>
                 <!-- 邮箱 -->
                 <div class="input-row-horizontal">
