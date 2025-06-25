@@ -9,6 +9,7 @@ public class Announcement {
     private String content;             // 正文
     private String author;              // 作者（默认为“系统”）
     private Date announcementDate;    // 日期（YYYY-MM-DD）
+    private int importance;             // 重要程度
 
     public int getRecordID() {
         return recordID;
@@ -53,5 +54,13 @@ public class Announcement {
     public String getAnnouncementDateString(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(announcementDate);
+    }
+
+    public int getImportance() {
+        return importance;
+    }
+
+    public void setImportance(int importance) {
+        this.importance = importance;
     }
 }

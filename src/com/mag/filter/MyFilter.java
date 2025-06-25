@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 
-public class MyFilter extends HttpServlet implements Filter {
+public class MyFilter implements Filter {
 
 	String encoding;
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
